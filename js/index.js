@@ -14,9 +14,47 @@
       $spanIcon = $spanIcon.append($icon);
       $listItem = $listItem.append($spanIngredient).append($spanIcon);
       $('ul.list').append($listItem);
-      console.log($('ul.list')[0]);
       $('#ingredient').val('');
     }
+  }
+
+  const getRecipes = function(ingredients) {
+
+    const parameters = ingredients.map((ingredient) => {
+      if(ingredient.indexOf(' ') !== -1) {
+        return ingredient = ingredient.replace(/\s/g, '+');
+      } else {
+        return ingredient;
+      }
+    });
+
+    let allParams = `q=${parameters[0]}`;
+
+    for (let i = 1; i < parameters.length; i++) {
+      allParams += `&allowedIngredient[]=${parameters[i]}`;
+    }
+
+    // This is search by title and ingredients
+    const $xhr = $.ajax({
+      method: 'GET',
+      url: `http://api.yummly.com/v1/api/recipes?${allParams}`,
+      headers: {
+        'X-Yummly-App-ID': '2f19c0bd',
+        'X-Yummly-App-Key': '8770079240bf61a9a3e74b55eacfb7be'
+      },
+      dataType: 'json'
+    });
+
+    $xhr.done((data) => {
+      if($xhr.status !== 200) {
+        return;
+      }
+      console.log(data);
+    });
+
+    $xhr.fail((err) => {
+      console.error(err);
+    });
   }
 
   $('form').submit((event) => {
@@ -35,49 +73,29 @@
   $('.submitBtn').click((event) => {
     addToList();
     if(($('#strict').is(':checked') || $('#percent').is(':checked')) && $('ul.list li').length) {
+      const itemsToSearch = [];
+
       $('span.list-item-text').each((index) => {
-        console.log($('span.list-item-text')[index].textContent);
+        itemsToSearch.push($('span.list-item-text')[index].textContent);
       });
+
+      $('p.search-terms').text(`searched items: ${itemsToSearch.join(', ')}`);
+      getRecipes(itemsToSearch);
+
     } else if(!$('ul.list li').length) {
         Materialize.toast('Please add ingredients.', 4000);
+
     } else {
         Materialize.toast('Please select a search type.', 4000);
     }
   });
 
-  // $('.add').click((event) => {
-  //   let $divRow = $('<div>').addClass('row');
-  //   const $divCol1 = $('<div>').addClass('input-field col s6');
-  //   const $input1 = $('<input>').addClass('validate').attr('placeholder', 'add ingredient').attr('type', 'text').attr('name', 'ingredient');
-  //   const $divCol2 = $('<div>').addClass('input-field col s6');
-  //   const $input2 = $('<input>').addClass('validate').attr('placeholder', 'add ingredient').attr('type', 'text').attr('name', 'ingredient');
-  //
-  //   const $firstInput = $divCol1.append($input1);
-  //   const $secondInput = $divCol2.append($input2);
-  //   $divRow = $divRow.append($firstInput).append($secondInput);
-  //   $('.addContainer').before($divRow);
-  // });
-  //
-  // $('.search-box').click((event) => {
-  //   event.preventDefault();
-  // });
-
-  // const $xhr = $.ajax({
-  //   method: 'GET',
-  //   url: 'ingredients.txt',
-  //   dataType: 'json'
-  // });
-
-  // This is metadata search of all ingredients in their database does not work
-  // const $xhr = $.ajax({
-  //   method: 'GET',
-  //   url: "http://api.yummly.com/v1/api/metadata/ingredient?_app_id=2f19c0bd&_app_key=8770079240bf61a9a3e74b55eacfb7be",
-  //   // headers: {
-  //   //   'X-Yummly-App-ID': '2f19c0bd',
-  //   //   'X-Yummly-App-Key': '8770079240bf61a9a3e74b55eacfb7be'
-  //   // },
-  //   dataType: 'json'
-  // });
+  $('.clear-search').click((event) => {
+    $('#strict').attr('checked', false);
+    $('#percent').attr('checked', false);
+    $('ul.list').empty();
+    $('p.search-terms').empty();
+  });
 
   // This is search by title and ingredients
   // const $xhr = $.ajax({
@@ -122,15 +140,5 @@
   //   dataType: 'json'
   // });
   //
-  // $xhr.done((data) => {
-  //   if($xhr.status !== 200) {
-  //     return;
-  //   }
-  //   console.log(data);
-  // });
-  //
-  // $xhr.fail((err) => {
-  //   console.error(err);
-  // });
 
 })();
