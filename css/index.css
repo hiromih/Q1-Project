@@ -78,7 +78,7 @@ nav .input-field label.active i {
 }
 
 .addIcon {
-  text-align: left;
+  text-align: center;
 }
 
 i.add {
@@ -101,4 +101,17 @@ ul.list li {
 
 .search-terms {
   font-style: italic;
+}
+
+img {
+  max-width: 100%;
+  max-width: 100%;
+}
+
+.row {
+  margin-bottom: 0;
+}
+
+.clearBtn {
+  margin-bottom: 20px;
 }

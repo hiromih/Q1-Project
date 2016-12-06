@@ -2,6 +2,7 @@
   'use strict';
 
   $(".button-collapse").sideNav();
+  let recipes = [];
 
   const addToList = function() {
     if($('#ingredient').val()) {
@@ -16,11 +17,11 @@
       $('ul.list').append($listItem);
       $('#ingredient').val('');
     }
-  }
+  };
 
-  const getRecipes = function(ingredients) {
+  const getParameters = function(formattedIngredients) {
 
-    const parameters = ingredients.map((ingredient) => {
+    const parameters = formattedIngredients.map((ingredient) => {
       if(ingredient.indexOf(' ') !== -1) {
         return ingredient = ingredient.replace(/\s/g, '+');
       } else {
@@ -33,12 +34,18 @@
     for (let i = 0; i < parameters.length; i++) {
       allParams += `&allowedIngredient[]=${parameters[i]}`;
     }
-    console.log(allParams);
 
-    // This is search by title and ingredients
+    return allParams;
+
+  };
+
+  const getRecipes = function(ingredients) {
+
+    const allParameters = getParameters(ingredients);
+
     const $xhr = $.ajax({
       method: 'GET',
-      url: `http://api.yummly.com/v1/api/recipes?${allParams}&requirePictures=true`,
+      url: `http://api.yummly.com/v1/api/recipes?${allParameters}&requirePictures=true`,
       headers: {
         'X-Yummly-App-ID': '2f19c0bd',
         'X-Yummly-App-Key': '8770079240bf61a9a3e74b55eacfb7be'
@@ -51,44 +58,52 @@
         return;
       }
       console.log(data);
-      const results = [];
+      for(const result of data.matches) {
 
-      for(const recipe of data.matches) {
-        const recipeId = recipe.id;
-        const recipeName = recipe.recipeName;
-        const recipeIngredients = recipe.ingredients;
+        const recipe = {
+          id: result.id,
+          name: result.recipeName,
+          ingredients: result.ingredients
+        };
 
-        // This is Ajax request by ID
-        const $xhr = $.ajax({
-          method: 'GET',
-          url:`http://api.yummly.com/v1/api/recipe/${recipeId}`,
-          headers: {
-            'X-Yummly-App-ID': '2f19c0bd',
-            'X-Yummly-App-Key': '8770079240bf61a9a3e74b55eacfb7be'
-          },
-          dataType: 'json'
-        });
-
-        $xhr.done((data) => {
-          if($xhr.status !== 200) {
-            return;
-          }
-          const largeImage = data.images[0].hostedLargeUrl;
-          const recipeSourceUrl = data.source.sourceRecipeUrl;
-          // console.log(recipeSourceUrl);
-          console.log(data);
-        });
-
-        $xhr.fail((err) => {
-          console.error(err);
-        });
+        getImageAndSource(recipe);
       }
     });
 
     $xhr.fail((err) => {
       console.error(err);
     });
+
+    console.log(recipes);
   }
+
+  const getImageAndSource = function(recipe) {
+
+    const $xhr = $.ajax({
+      method: 'GET',
+      url:`http://api.yummly.com/v1/api/recipe/${recipe.id}`,
+      headers: {
+        'X-Yummly-App-ID': '2f19c0bd',
+        'X-Yummly-App-Key': '8770079240bf61a9a3e74b55eacfb7be'
+      },
+      dataType: 'json'
+    });
+
+    $xhr.done((data) => {
+      if($xhr.status !== 200) {
+        return;
+      }
+
+      recipe.image = data.images[0].hostedLargeUrl;
+      recipe.recipeUrl = data.source.sourceRecipeUrl;
+      recipes.push(recipe);
+    });
+
+    $xhr.fail((err) => {
+      console.error(err);
+    });
+
+  };
 
   $('form').submit((event) => {
       event.preventDefault();
@@ -103,9 +118,16 @@
     $(event.target).parent().parent().remove();
   });
 
+  $('.clear-search').click((event) => {
+    $('ul.list').empty();
+    $('p.search-terms').empty();
+  });
+
   $('.submitBtn').click((event) => {
+    recipes = [];
     addToList();
-    if(($('#strict').is(':checked') || $('#percent').is(':checked')) && $('ul.list li').length) {
+
+    if($('ul.list li').length) {
       const itemsToSearch = [];
 
       $('span.list-item-text').each((index) => {
@@ -113,6 +135,7 @@
       });
 
       $('p.search-terms').text(`searched items: ${itemsToSearch.join(', ')}`);
+
       getRecipes(itemsToSearch);
 
     } else if(!$('ul.list li').length) {
@@ -121,13 +144,6 @@
     } else {
         Materialize.toast('Please select a search type.', 4000);
     }
-  });
-
-  $('.clear-search').click((event) => {
-    $('#strict').attr('checked', false);
-    $('#percent').attr('checked', false);
-    $('ul.list').empty();
-    $('p.search-terms').empty();
   });
 
 })();
