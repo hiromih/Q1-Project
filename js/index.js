@@ -33,11 +33,12 @@
     for (let i = 0; i < parameters.length; i++) {
       allParams += `&allowedIngredient[]=${parameters[i]}`;
     }
+    console.log(allParams);
 
     // This is search by title and ingredients
     const $xhr = $.ajax({
       method: 'GET',
-      url: `http://api.yummly.com/v1/api/recipes?${allParams}`,
+      url: `http://api.yummly.com/v1/api/recipes?${allParams}&requirePictures=true`,
       headers: {
         'X-Yummly-App-ID': '2f19c0bd',
         'X-Yummly-App-Key': '8770079240bf61a9a3e74b55eacfb7be'
@@ -74,7 +75,8 @@
           }
           const largeImage = data.images[0].hostedLargeUrl;
           const recipeSourceUrl = data.source.sourceRecipeUrl;
-
+          // console.log(recipeSourceUrl);
+          console.log(data);
         });
 
         $xhr.fail((err) => {
