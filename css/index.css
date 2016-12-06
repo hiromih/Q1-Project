@@ -1,0 +1,100 @@
+/*
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1 0 auto;
+}*/
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.landing {
+  background-image: url('../images/mise-en-place-4.jpg');
+  background-size: cover;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+.content {
+  margin-bottom: 0;
+}
+
+.container .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.container {
+  width: 90%;
+}
+
+.submit {
+  display: flex;
+  flex-direction: column;
+}
+
+.radio-btn {
+  margin-top: 15px;
+}
+
+a.brand-logo {
+  margin-left: 15px;
+}
+
+footer.page-footer {
+  margin-top: 0;
+}
+
+#footer-links {
+  display: flex;
+  justify-content: space-between;
+}
+
+nav .input-field label i {
+  color: black;
+}
+
+.input-field {
+  background-color: white;
+  margin-top: 0;
+}
+
+nav .input-field label.active i {
+  color: black;
+}
+
+.ingredient {
+  display: flex;
+  align-items: center;
+}
+
+.addIcon {
+  text-align: left;
+}
+
+i.add {
+  border-radius: 9px;
+}
+
+i.add:hover, i.clearList:hover {
+  cursor: pointer;
+}
+
+span i.clearList {
+  display: inline-block;
+  margin-left: 10px;
+  border-radius: 10px;
+}
+
+ul.list li {
+  list-style-type: circle;
+}
