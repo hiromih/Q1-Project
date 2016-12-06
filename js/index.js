@@ -30,7 +30,7 @@
 
     let allParams = `q=${parameters[0]}`;
 
-    for (let i = 1; i < parameters.length; i++) {
+    for (let i = 0; i < parameters.length; i++) {
       allParams += `&allowedIngredient[]=${parameters[i]}`;
     }
 
@@ -49,9 +49,9 @@
       if($xhr.status !== 200) {
         return;
       }
-
+      console.log(data);
       const results = [];
-      
+
       for(const recipe of data.matches) {
         const recipeId = recipe.id;
         const recipeName = recipe.recipeName;
@@ -127,49 +127,5 @@
     $('ul.list').empty();
     $('p.search-terms').empty();
   });
-
-  // This is search by title and ingredients
-  // const $xhr = $.ajax({
-  //   method: 'GET',
-  //   url: 'http://api.yummly.com/v1/api/recipes?q=chicken&allowedIngredient[]=onion&allowedIngredient[]=chicken&allowedIngredient[]=garbanzo+beans&allowedIngredient[]=bacon',
-  //   headers: {
-  //     'X-Yummly-App-ID': '2f19c0bd',
-  //     'X-Yummly-App-Key': '8770079240bf61a9a3e74b55eacfb7be'
-  //   },
-  //   dataType: 'json'
-  // });
-
-
-  // This is Ajax request by ID
-  // const $xhr = $.ajax({
-  //   method: 'GET',
-  //   url:'http://api.yummly.com/v1/api/recipe/Green-Goddess-Curry-1811304',
-  //   headers: {
-  //     'X-Yummly-App-ID': '2f19c0bd',
-  //     'X-Yummly-App-Key': '8770079240bf61a9a3e74b55eacfb7be'
-  //   },
-  //   dataType: 'json'
-  // });
-
-  // food2fork request but ingredients
-  // const $xhr = $.ajax({
-  //   method: 'GET',
-  //   url:'https://cors-anywhere.herokuapp.com/http://food2fork.com/api/search?key=5b002586b23b7919beac1aa2b1c550d9&q=beef,asparagus,pepper',
-  //   // headers: {
-  //   //   key: '5b002586b23b7919beac1aa2b1c550d9'
-  //   // },
-  //   dataType: 'json'
-  // });
-
-  // food2fork request by ID
-  // const $xhr = $.ajax({
-  //   method: 'GET',
-  //   url:'https://cors-anywhere.herokuapp.com/http://food2fork.com/api/get?key=5b002586b23b7919beac1aa2b1c550d9&rID=ac43c6',
-  //   // headers: {
-  //   //   key: '5b002586b23b7919beac1aa2b1c550d9'
-  //   // },
-  //   dataType: 'json'
-  // });
-  //
 
 })();
