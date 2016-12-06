@@ -5,7 +5,7 @@
 
   const addToList = function() {
     if($('#ingredient').val()) {
-      const addedIngredient = $('#ingredient').val();
+      const addedIngredient = ($('#ingredient').val()).trim();
       let $listItem = $('<li>');
       let $spanIngredient = $('<span>').addClass('list-item-text').text(addedIngredient);
       let $spanIcon = $('<span>');
@@ -49,7 +49,38 @@
       if($xhr.status !== 200) {
         return;
       }
-      console.log(data);
+
+      const results = [];
+      
+      for(const recipe of data.matches) {
+        const recipeId = recipe.id;
+        const recipeName = recipe.recipeName;
+        const recipeIngredients = recipe.ingredients;
+
+        // This is Ajax request by ID
+        const $xhr = $.ajax({
+          method: 'GET',
+          url:`http://api.yummly.com/v1/api/recipe/${recipeId}`,
+          headers: {
+            'X-Yummly-App-ID': '2f19c0bd',
+            'X-Yummly-App-Key': '8770079240bf61a9a3e74b55eacfb7be'
+          },
+          dataType: 'json'
+        });
+
+        $xhr.done((data) => {
+          if($xhr.status !== 200) {
+            return;
+          }
+          const largeImage = data.images[0].hostedLargeUrl;
+          const recipeSourceUrl = data.source.sourceRecipeUrl;
+
+        });
+
+        $xhr.fail((err) => {
+          console.error(err);
+        });
+      }
     });
 
     $xhr.fail((err) => {
