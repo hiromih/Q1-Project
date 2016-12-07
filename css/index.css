@@ -116,6 +116,14 @@ img {
   margin-bottom: 20px;
 }
 
-.card-title {
+.card .card-content .card-title {
+  line-height: 15px;
+}
 
+.card .card-title {
+  font-size: 15px;
+}
+
+.card .card-content {
+  padding: 10px;
 }
