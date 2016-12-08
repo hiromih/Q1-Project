@@ -3,6 +3,8 @@
 
   $(".button-collapse").sideNav();
   let recipes = [];
+  let moreRecipes = false;
+  let recipesStart = 0;
 
   const addToList = function() {
     if($('#ingredient').val()) {
@@ -19,6 +21,14 @@
     }
   };
 
+  const getUserIngredients = function() {
+    const usrIngr = [];
+    $('span.list-item-text').each((index) => {
+      usrIngr.push($('span.list-item-text')[index].textContent);
+    });
+    return usrIngr;
+  };
+
   const getParameters = function(ingredients) {
 
     const parameters = ingredients.map((ingredient) => {
@@ -29,7 +39,11 @@
       }
     });
 
-    return `q=${parameters.join('+')}`;
+    if (moreRecipes) {
+      recipesStart += 20;
+    }
+
+    return `q=${parameters.join('+')}&requirePictures=true&maxResult=20&start=${recipesStart}`;
 
     //might use this later if I can get better results.
     // let allParams = `q=${parameters[0]}`;
@@ -41,13 +55,17 @@
 
   };
 
+  const displayNoMatchMessage = function() {
+    $('p.search-terms').text("Uh Oh. Something went wrong. Try spell checking or entering different ingredients.");
+  }
+
   const getRecipes = function(ingredients) {
 
     const allParameters = getParameters(ingredients);
-    console.log(allParameters);
+
     const $xhr = $.ajax({
       method: 'GET',
-      url: `http://api.yummly.com/v1/api/recipes?${allParameters}&requirePictures=true`,
+      url: `http://api.yummly.com/v1/api/recipes?${allParameters}`,
       headers: {
         'X-Yummly-App-ID': '2f19c0bd',
         'X-Yummly-App-Key': '8770079240bf61a9a3e74b55eacfb7be'
@@ -60,18 +78,33 @@
         return;
       }
 
-      for(const result of data.matches) {
+      if(data.matches.length === 20) {
+        moreRecipes = true;
+        if($('#more-recipes').hasClass('display')) {
+          $('#more-recipes').toggleClass('display');
+        }
+      } else {
+        moreRecipes = false;
+        if(!$('#more-recipes').hasClass('display')) {
+          $('#more-recipes').toggleClass('display');
+        }
+      }
 
-        const recipe = {
-          id: result.id,
-          name: result.recipeName,
-          ingredients: result.ingredients
-        };
+      if(data.matches.length !== 0) {
 
-        const ingredientResults = matchIngredients(ingredients, recipe.ingredients);
-        Object.assign(recipe, ingredientResults);
-        console.log(recipe);
-        getImageAndSource(recipe);
+        for(const result of data.matches) {
+          const recipe = {
+            id: result.id,
+            name: result.recipeName,
+            ingredients: result.ingredients
+          };
+
+          const ingredientResults = matchIngredients(ingredients, recipe.ingredients);
+          Object.assign(recipe, ingredientResults);
+          getImageAndSource(recipe, ingredients);
+        }
+      } else {
+        displayNoMatchMessage();
       }
     });
 
@@ -81,7 +114,7 @@
 
   };
 
-  const getImageAndSource = function(recipe) {
+  const getImageAndSource = function(recipe, ingredients) {
 
     const $xhr = $.ajax({
       method: 'GET',
@@ -102,7 +135,9 @@
       recipe.recipeUrl = data.source.sourceRecipeUrl;
       recipes.push(recipe);
 
-      createCard(recipe);
+      if(recipe.matched) {
+        createCard(recipe, ingredients);
+      }
     });
 
     $xhr.fail((err) => {
@@ -111,37 +146,37 @@
 
   };
 
-  const createCard = function(recipe) {
-    let $outerDiv = $('<div>').addClass('col s12 m6');
-    let $cardDiv = $('<div>').addClass('card small');
-    let $imageDiv = $('<div>').addClass('card-image');
-    const $img = $('<img>').attr('src', recipe.image);
-    let $cardContentDiv = $('<div>').addClass('card-content');
-    let $contentSpan = $('<span>').addClass('card-title grey-text text-darken-4').text(recipe.name);
-    const $contentIcon = $('<i>').addClass('meterial-icons right');
-    let $contentP = $('<p>');
-    const $contentA = $('<a>').attr({ href:recipe.recipeUrl, target:"_blank" }).text('Get Recipe');
-    let $actionDiv = $('<div>').addClass('card-action');
-    let $actionRow = $('<div>').addClass('row');
-    const $actionPercentDiv = $('<div>').addClass('col s4').text(recipe.percentMatch);
-    const $actionFound = $('<div>').addClass('col s4').text(recipe.matched);
-    const $actionNotFound = $('<div>').addClass('col s4').text(recipe.unmatched);
+  const createCard = function(recipe, ingredients) {
+      $('p.search-terms').text(`searched items: ${ingredients.join(', ')}`);
+      let $outerDiv = $('<div>').addClass('col s6 m6 l4');
+      let $cardDiv = $('<div>').addClass('card small');
+      let $imageDiv = $('<div>').addClass('card-image');
+      const $img = $('<img>').attr('src', recipe.image);
+      let $cardContentDiv = $('<div>').addClass('card-content');
+      let $contentSpan = $('<span>').addClass('card-title grey-text text-darken-4').text(recipe.name);
+      const $contentIcon = $('<i>').addClass('meterial-icons right');
+      let $contentP = $('<p>');
+      const $contentA = $('<a>').attr({ href:recipe.recipeUrl, target:"_blank" }).text('Get Recipe');
+      let $actionDiv = $('<div>').addClass('card-action');
+      let $actionRow = $('<div>').addClass('row');
+      const $actionPercentDiv = $('<div>').addClass('col s4').text(recipe.percentMatch);
+      const $actionFound = $('<div>').addClass('col s4').text(recipe.matched);
+      const $actionNotFound = $('<div>').addClass('col s4').text(recipe.unmatched);
 
-    $actionRow = $actionRow.append($actionPercentDiv).append($actionFound).append($actionNotFound)
+      $actionRow = $actionRow.append($actionPercentDiv).append($actionFound).append($actionNotFound)
 
-    $contentP = $contentP.append($contentA);
-    $contentSpan = $contentSpan.append($contentIcon);
+      $contentP = $contentP.append($contentA);
+      $contentSpan = $contentSpan.append($contentIcon);
 
-    $imageDiv = $imageDiv.append($img);
-    $cardContentDiv = $cardContentDiv.append($contentSpan).append($contentP);
-    $actionDiv = $actionDiv.append($actionRow);
+      $imageDiv = $imageDiv.append($img);
+      $cardContentDiv = $cardContentDiv.append($contentSpan).append($contentP);
+      $actionDiv = $actionDiv.append($actionRow);
 
-    $cardDiv = $cardDiv.append($imageDiv).append($cardContentDiv).append($actionDiv);
+      $cardDiv = $cardDiv.append($imageDiv).append($cardContentDiv).append($actionDiv);
 
-    $outerDiv = $outerDiv.append($cardDiv);
+      $outerDiv = $outerDiv.append($cardDiv);
 
-    $('.card-insert-point').append($outerDiv);
-
+      $('.card-insert-point').append($outerDiv);
   };
 
   const matchIngredients = function (userIngredients, recipeIngredients) {
@@ -184,25 +219,22 @@
     $('.card-insert-point').empty();
   });
 
-  $('.submitBtn').click((event) => {
+  $('#submitBtn').click((event) => {
+    recipesStart = 0;
     recipes = [];
     addToList();
     $('.card-insert-point').empty();
+    $('p.search-terms').empty();
 
     if($('ul.list li').length) {
-      const itemsToSearch = [];
-
-      $('span.list-item-text').each((index) => {
-        itemsToSearch.push($('span.list-item-text')[index].textContent);
-      });
-
-      $('p.search-terms').text(`searched items: ${itemsToSearch.join(', ')}`);
-
-      getRecipes(itemsToSearch);
-
+      getRecipes(getUserIngredients());
     } else {
-        Materialize.toast('Please add ingredients.', 4000);
+      Materialize.toast('Please add ingredients.', 4000);
     }
+  });
+
+  $('#more-recipes i').click(() => {
+    getRecipes(getUserIngredients());
   });
 
 })();

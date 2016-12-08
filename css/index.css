@@ -37,10 +37,11 @@ main {
   width: 90%;
 }
 
-.submit {
+/*this spreads the submit button out 12 materialize units*/
+/*.submit {
   display: flex;
   flex-direction: column;
-}
+}*/
 
 .radio-btn {
   margin-top: 15px;
@@ -95,8 +96,9 @@ span i.clearList {
   border-radius: 10px;
 }
 
-ul.list li {
-  list-style-type: circle;
+ul.list {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .search-terms {
@@ -114,6 +116,7 @@ img {
 
 .clearBtn {
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .card .card-content .card-title {
@@ -126,4 +129,21 @@ img {
 
 .card .card-content {
   padding: 10px;
+}
+
+.test {
+  position: fixed;
+}
+
+div.submit {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+div.list {
+  margin-top: 20px;
+}
+
+.display {
+  display: none;
 }

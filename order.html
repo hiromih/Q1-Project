@@ -41,31 +41,32 @@
       <div class="row purple lighten-5">
         <div class="col s12 m4 left-side"><!--start left side-->
           <div class="row">
-            <div class="col s12 center clearBtn">
+            <div class="col s12 clearBtn">
               <a class="waves-effect waves-light btn clear-search">Start Over</a>
             </div>
-            <div class="col s12">
-              <form>
-                <div class="row ingredient">
-                  <div class="input-field col s9">
-                    <input id="ingredient" type="text" class="validate">
-                    <label for="ingredient" data-error="wrong"></label>
-                  </div>
-                  <div class="col s3 addIcon">
-                    <i class="material-icons z-depth-4 add">add</i>
-                  </div>
+              <div class="col s12 input-form">
+                <div class="testing">
+                  <form>
+                    <div class="row ingredient">
+                      <div class="input-field col s9">
+                        <input id="ingredient" type="text" class="validate">
+                        <label for="ingredient" data-error="wrong"></label>
+                      </div>
+                      <div class="col s3 addIcon">
+                        <i class="material-icons z-depth-4 add">add</i>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col s12 list">
+                        <ul class="list"></ul>
+                      </div>
+                    </div>
+                  </form>
                 </div>
-                <div class="row">
-                  <div class="col s12">
-                    <ul class="list"></ul>
-                  </div>
-                </div>
-              </form>
-            </div>
+              </div>
           </div>
-          <div class="col s12 center">
-            <button class="btn waves-effect waves-light submitBtn" type="submit" name="action">Submit
-              <i class="material-icons right">send</i>
+          <div class="col s12 submit">
+            <button id="submitBtn" class="btn waves-effect waves-light center" type="submit" name="action">Submit<i class="material-icons right">send</i>
             </button>
           </div>
         </div><!--end of left-side-->
@@ -73,38 +74,13 @@
           <div class="row">
             <p class="search-terms"></p>
             <div class="row">
-              <div class="col s12 card-insert-point">
-                <div class="col s12 m6">
-                  <div class="card small">
-                    <div class="card-image">
-                      <img src="https://s-media-cache-ak0.pinimg.com/736x/e8/ef/30/e8ef308e2969c88313f635993af9e7d8.jpg">
-                    </div>
-                    <div class="card-content">
-                      <span class="card-title grey-text text-darken-4">Card Title</span>
-                      <p><a href="#">This is a link</a></p>
-                    </div>
-                    <div class="card-action">
-                      <div class="row">
-                        <div class="col s4">
-                          testing1
-                        </div>
-                        <div class="col s4">
-                          testing2
-                        </div>
-                        <div class="col s4">
-                          testing3
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <div class="col s12 card-insert-point"></div>
             </div>
+            <div id="more-recipes" class="col s12 center display"><a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a></div>
           </div>
         </div><!--end of right side-->
       </div>
     </main>
-
 
     <footer class="page-footer">
       <div class="container">
