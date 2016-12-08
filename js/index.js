@@ -56,7 +56,7 @@
   };
 
   const displayNoMatchMessage = function() {
-    $('p.search-terms').text("Uh Oh. Something went wrong. Try spell checking or entering different ingredients.");
+    $('p.search-terms').text("Uh Oh. Something went wrong. Try spell checking or entering different ingredients. Make sure to enter valid ingredients.");
   }
 
   const getRecipes = function(ingredients) {
