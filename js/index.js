@@ -56,6 +56,7 @@
   };
 
   const displayNoMatchMessage = function() {
+    $('#scroll-up').addClass('scroll');
     $('p.search-terms').text("Uh Oh. Something went wrong. Try spell checking or entering different ingredients. Make sure to enter valid ingredients.");
   }
 
@@ -138,6 +139,10 @@
       if(recipe.matched) {
         createCard(recipe, ingredients);
       }
+      console.log(recipes.length);
+      if(recipes.length) {
+        $('#scroll-up').removeClass('scroll');
+      }
     });
 
     $xhr.fail((err) => {
@@ -217,6 +222,7 @@
     $('ul.list').empty();
     $('p.search-terms').empty();
     $('.card-insert-point').empty();
+    $('#scroll-up').addClass('scroll');
   });
 
   $('#submitBtn').click((event) => {
@@ -235,6 +241,10 @@
 
   $('#more-recipes i').click(() => {
     getRecipes(getUserIngredients());
+  });
+
+  $('#scroll-up i').click(() => {
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
   });
 
 })();

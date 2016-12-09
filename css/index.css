@@ -86,7 +86,7 @@ i.add {
   border-radius: 9px;
 }
 
-i.add:hover, i.clearList:hover {
+i.add:hover, i.clearList:hover, .scroll:hover {
   cursor: pointer;
 }
 
@@ -144,6 +144,6 @@ div.list {
   margin-top: 20px;
 }
 
-.display {
+.display, div.scroll {
   display: none;
 }
