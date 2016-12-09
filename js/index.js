@@ -2,6 +2,7 @@
   'use strict';
 
   $(".button-collapse").sideNav();
+  let recipeIds = [];
   let recipes = [];
   let moreRecipes = false;
   let recipesStart = 0;
@@ -100,9 +101,12 @@
             ingredients: result.ingredients
           };
 
-          const ingredientResults = matchIngredients(ingredients, recipe.ingredients);
-          Object.assign(recipe, ingredientResults);
-          getImageAndSource(recipe, ingredients);
+          if(recipeIds.indexOf(recipe.name) === -1) {
+            console.log(recipe.name);
+            const ingredientResults = matchIngredients(ingredients, recipe.ingredients);
+            Object.assign(recipe, ingredientResults);
+            getImageAndSource(recipe, ingredients);
+          }
         }
       } else {
         displayNoMatchMessage();
@@ -132,17 +136,22 @@
         return;
       }
 
+      //there's a bug here that turns up no matches if the first recipe isn't a match even if there are still others to search through
       recipe.image = data.images[0].hostedLargeUrl;
       recipe.recipeUrl = data.source.sourceRecipeUrl;
-      recipes.push(recipe);
-
-      if(recipe.matched) {
+      if(recipe.matched && (recipe.unmatched < 20)) {
+        recipes.push(recipe);
+        recipeIds.push(recipe.name);
         createCard(recipe, ingredients);
+        console.log(recipe.ingredients);
       }
-      console.log(recipes.length);
+
       if(recipes.length) {
         $('#scroll-up').removeClass('scroll');
+      } else {
+        displayNoMatchMessage();
       }
+
     });
 
     $xhr.fail((err) => {
@@ -164,10 +173,23 @@
       const $contentA = $('<a>').attr({ href:recipe.recipeUrl, target:"_blank" }).text('Get Recipe');
       let $actionDiv = $('<div>').addClass('card-action');
       let $actionRow = $('<div>').addClass('row');
-      const $actionPercentDiv = $('<div>').addClass('col s4').text(recipe.percentMatch);
-      const $actionFound = $('<div>').addClass('col s4').text(recipe.matched);
-      const $actionNotFound = $('<div>').addClass('col s4').text(recipe.unmatched);
+      let $actionPercentDiv = $('<div>').addClass('col s4 center').text(`${recipe.percentMatch}%`);
+      let $actionFound = $('<div>').addClass('col s4 center').text(recipe.matched);
+      let $actionNotFound = $('<div>').addClass('col s4 center').text(recipe.unmatched);
 
+      const $matchesIconFound = $('<i>').addClass('material-icons green-text').text('done');
+      const $matchesIconNotFound = $('<i>').addClass('material-icons red-text').text('clear');
+      const $percentIconUp = $('<i>').addClass('material-icons green-text').text('thumb_up');
+      const $percentIconDown = $('<i>').addClass('material-icons red-text').text('thumb_down');
+
+      if(recipe.percentMatch < 40) {
+        $actionPercentDiv = $actionPercentDiv.append($percentIconDown);
+      } else {
+        $actionPercentDiv = $actionPercentDiv.append($percentIconUp);
+      }
+
+      $actionNotFound = $actionNotFound.append($matchesIconNotFound);
+      $actionFound = $actionFound.append($matchesIconFound);
       $actionRow = $actionRow.append($actionPercentDiv).append($actionFound).append($actionNotFound)
 
       $contentP = $contentP.append($contentA);
@@ -199,7 +221,7 @@
     const totals = {
       matched: matchedIngredients,
       unmatched: recipeIngredients.length - matchedIngredients,
-      percentMatch: Math.round(((matchedIngredients / recipeIngredients.length) * 100)) + "%"
+      percentMatch: Math.round(((matchedIngredients / recipeIngredients.length) * 100))
     };
 
     return totals;
@@ -224,11 +246,15 @@
     $('.card-insert-point').empty();
     $('#scroll-up').addClass('scroll');
     $('#more-recipes').addClass('display');
+    recipesStart = 0;
+    recipes = [];
+    recipeIds = [];
   });
 
   $('#submitBtn').click((event) => {
     recipesStart = 0;
     recipes = [];
+    recipeIds = [];
     addToList();
     $('.card-insert-point').empty();
     $('p.search-terms').empty();
@@ -240,6 +266,7 @@
     }
   });
 
+  //maybe a bug here
   $('#more-recipes i').click(() => {
     getRecipes(getUserIngredients());
   });

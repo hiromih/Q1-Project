@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Meal Match</title>
 
-    <!-- <script defer src="https://code.jquery.com/jquery-2.1.1.min.js"></script> -->
     <script defer src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script defer src="js/materialize.min.js"></script>
     <script defer src="js/index.js"></script>
@@ -43,11 +42,12 @@
               <a class="waves-effect waves-light btn clear-search">Start Over</a>
             </div>
               <div class="col s12 input-form">
+                <!-- maybe take this div of testing out -->
                 <div class="testing">
                   <form>
                     <div class="row ingredient">
                       <div class="input-field col s9">
-                        <input id="ingredient" type="text" class="validate" placeholder="add ingredient">
+                        <input id="ingredient" type="text" class="validate" placeholder="add ingredient" autocomplete="off">
                         <label for="ingredient" data-error="wrong"></label>
                       </div>
                       <div class="col s3 addIcon">
@@ -72,11 +72,12 @@
           <div class="row">
             <p class="search-terms"></p>
             <div class="row">
-              <div class="col s12 card-insert-point"></div>
+              <div class="col s12 card-insert-point"></div><!--end insert point-->
             </div>
-            <div id="more-recipes" class="col s12 center display"><a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a></div>
-            <div id='scroll-up' class="scroll">
-              <i class="material-icons right scroll">arrow_upward</i>
+            <div id="more-recipes" class="col s12 center display"><a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons add-recipes">add</i></a></div>
+            <div id='scroll-up' class="scroll right">
+              <i class="material-icons scroll">arrow_upward</i>
+              <p>top</p>
             </div>
           </div>
         </div><!--end of right side-->

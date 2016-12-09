@@ -35,6 +35,7 @@ main {
 
 .container {
   width: 90%;
+  margin-top: 5px;
 }
 
 /*this spreads the submit button out 12 materialize units*/
@@ -124,7 +125,7 @@ img {
 }
 
 .card .card-title {
-  font-size: 15px;
+  font-size: 13px;
 }
 
 .card .card-content {
@@ -146,4 +147,41 @@ div.list {
 
 .display, div.scroll {
   display: none;
+}
+
+nav, footer.page-footer, #footer-links {
+  background-color: #809BCE;
+}
+
+.btn:hover, .btn, .btn:focus {
+  background-color: #B47EB3;
+}
+
+.add-recipes {
+  background-color: #B47EB3;
+}
+
+h1 {
+  background: rgba(199, 134, 76, 0.5);
+  border-radius: 20px;
+}
+
+nav, footer, {
+  color: #FDFFF7;
+}
+
+.fonts {
+  color: #FEFFEA;
+}
+
+.card-content p {
+  font-size: 13px;
+}
+
+.holder {
+  opacity: .3;
+}
+
+main.container {
+  max-width: 1024px;
 }
