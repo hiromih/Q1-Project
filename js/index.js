@@ -223,6 +223,7 @@
     $('p.search-terms').empty();
     $('.card-insert-point').empty();
     $('#scroll-up').addClass('scroll');
+    $('#more-recipes').addClass('display');
   });
 
   $('#submitBtn').click((event) => {
