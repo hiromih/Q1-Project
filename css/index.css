@@ -1,77 +1,52 @@
-/*
 body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-main {
-  flex: 1 0 auto;
-}*/
-
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.landing {
-  background-image: url('../images/mise-en-place-4.jpg');
-  background-size: cover;
-}
-
-main {
-  flex: 1 0 auto;
-}
-
-.content {
-  margin-bottom: 0;
-}
-
-.container .row {
-  margin-left: 0;
-  margin-right: 0;
-}
-
-.container {
-  width: 90%;
-  margin-top: 5px;
-}
-
-/*this spreads the submit button out 12 materialize units*/
-/*.submit {
-  display: flex;
-  flex-direction: column;
-}*/
-
-.radio-btn {
-  margin-top: 15px;
-}
+/* HEADER & NAV BAR ******************/
 
 a.brand-logo {
   margin-left: 15px;
 }
 
-footer.page-footer {
-  margin-top: 0;
+/* MAIN ******************************/
+
+main {
+  flex: 1 0 auto;
 }
 
-#footer-links {
-  display: flex;
-  justify-content: space-between;
+main.container {
+  max-width: 1024px;
 }
 
-nav .input-field label i {
-  color: black;
+/*index.html*/
+.landing {
+  background-image: url('../images/mise-en-place-4.jpg');
+  background-size: cover;
 }
 
-.input-field {
-  background-color: white;
-  margin-top: 0;
+h2 {
+  background: rgba(199, 134, 76, 0.5);
+  border-radius: 20px;
+  padding: 10px;
 }
 
-nav .input-field label.active i {
-  color: black;
+p > a {
+  font-size: 12px;
+}
+
+/*search.html*/
+
+/*need this for main but maybe not footer put in other section if uesed for both*/
+.container {
+  width: 90%;
+  margin-top: 5px;
+}
+
+.clear-btn-div {
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .ingredient {
@@ -79,19 +54,40 @@ nav .input-field label.active i {
   align-items: center;
 }
 
-.addIcon {
+#ingredient {
+  margin: 10px 0;
+}
+
+.add-icon {
   text-align: center;
+}
+
+.input-field {
+  background-color: white;
+  margin-top: 0;
+}
+
+nav .input-field label i {
+  color: black;
+}
+
+nav .input-field label.active i {
+  color: black;
+}
+
+.row .col .input-form {
+  padding-left: 0;
 }
 
 i.add {
   border-radius: 9px;
 }
 
-i.add:hover, i.clearList:hover, .scroll:hover {
+i.add:hover, i.clear-list:hover, .scroll:hover {
   cursor: pointer;
 }
 
-span i.clearList {
+span i.clear-list {
   display: inline-block;
   margin-left: 10px;
   border-radius: 10px;
@@ -102,43 +98,31 @@ ul.list {
   margin-bottom: 0;
 }
 
+div.submit {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+span.key {
+  font-size: 12px;
+}
+
+div.key {
+  margin-bottom: 10px;
+}
+
+div.key-div {
+  border: 1px dashed rgb(186, 186, 186);
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
 .search-terms {
   font-style: italic;
 }
 
-img {
-  max-width: 100%;
-  max-width: 100%;
-}
-
-.row {
-  margin-bottom: 0;
-}
-
-.clearBtn {
-  margin-bottom: 20px;
-  margin-top: 20px;
-}
-
-.card .card-content .card-title {
-  line-height: 15px;
-}
-
-.card .card-title {
-  font-size: 13px;
-}
-
-.card .card-content {
-  padding: 10px;
-}
-
-.test {
-  position: fixed;
-}
-
-div.submit {
-  margin-top: 20px;
-  margin-bottom: 20px;
+.add-recipes {
+  background-color: #B47EB3;
 }
 
 div.list {
@@ -149,6 +133,78 @@ div.list {
   display: none;
 }
 
+#scroll-up > p {
+  margin-top: 0;
+}
+
+.ingredient-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.card .card-action * {
+  padding: 0;
+}
+
+.card .card-action {
+  padding: 10px;
+}
+
+.ingredient-details div:nth-child(2) {
+  padding-top: 5px;
+}
+
+.card .card-content .card-title {
+  line-height: 15px;
+}
+
+.card .card-title {
+  font-size: 14px;
+}
+
+.card .card-content {
+  padding: 5px;
+}
+
+.card-content p {
+  font-size: 13px;
+}
+
+#more-recipes {
+  margin: 10px 0;
+}
+/* FOOTER ****************************/
+
+/*maybe don't need this*/
+.container .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.fonts {
+  color: #FEFFEA;
+}
+
+footer.page-footer {
+  margin-top: 0;
+}
+
+/*not sure what justify content does, seems not to effect the page*/
+#footer-links {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* MULTIPLE SECTIONS *****************/
+
+.row {
+  margin-bottom: 0;
+}
+
+nav, footer {
+  color: #FDFFF7;
+}
+
 nav, footer.page-footer, #footer-links {
   background-color: #809BCE;
 }
@@ -157,31 +213,6 @@ nav, footer.page-footer, #footer-links {
   background-color: #B47EB3;
 }
 
-.add-recipes {
-  background-color: #B47EB3;
-}
-
-h1 {
-  background: rgba(199, 134, 76, 0.5);
-  border-radius: 20px;
-}
-
-nav, footer, {
-  color: #FDFFF7;
-}
-
-.fonts {
-  color: #FEFFEA;
-}
-
-.card-content p {
-  font-size: 13px;
-}
-
-.holder {
-  opacity: .3;
-}
-
-main.container {
-  max-width: 1024px;
+.btn {
+  border-radius: 6px;
 }
