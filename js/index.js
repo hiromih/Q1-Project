@@ -27,7 +27,7 @@
     const usrIngr = [];
 
     $('span.list-item-text').each((index) => {
-      usrIngr.push($('span.list-item-text')[index].textContent);
+      usrIngr.push($('span.list-item-text')[index].textContent.toLowerCase());
     });
 
     return usrIngr;

@@ -36,6 +36,10 @@ p > a {
   font-size: 12px;
 }
 
+.search-btn {
+  margin-bottom: 20px;
+}
+
 /*search.html*/
 
 /*need this for main but maybe not footer put in other section if uesed for both*/
