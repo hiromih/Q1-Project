@@ -5,7 +5,7 @@ Meal Match is a recipe site that generates recipes based on ingredients the user
 ##Features
 
 Here is a short demo of my project:
-[/images/landing.png](https://vimeo.com/195208395)
+[![Q1-Project-Galvanize](/images/landing.png)](https://vimeo.com/195208395)
 
 ##Technologies Used
 
