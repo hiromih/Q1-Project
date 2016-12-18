@@ -96,63 +96,63 @@
     sortRecipes();
 
     for (const oneRecipe of recipes) {
-      let $outerDiv = $('<div>').addClass('col s6 m6 l4');
-      let $cardDiv = $('<div>').addClass('card small');
+      const $outerDiv = $('<div>').addClass('col s6 m6 l4');
+      const $cardDiv = $('<div>').addClass('card small');
 
       //* **image***
-      let $imageDiv = $('<div>').addClass('card-image');
+      const $imageDiv = $('<div>').addClass('card-image');
       const $img = $('<img>').attr('src', oneRecipe.image);
 
-      $imageDiv = $imageDiv.append($img);
+      $imageDiv.append($img);
 
       //* **content***
-      let $cardContentDiv = $('<div>').addClass('card-content');
+      const $cardContentDiv = $('<div>').addClass('card-content');
       const $contentSpan = $('<span>').addClass('card-title grey-text text-darken-4').text(oneRecipe.name);
-      let $contentP = $('<p>');
+      const $contentP = $('<p>');
       const $contentA = $('<a>').attr({ href: oneRecipe.recipeUrl, target: '_blank' }).text('Get Recipe');
 
-      $contentP = $contentP.append($contentA);
-      $cardContentDiv = $cardContentDiv.append($contentSpan).append($contentP);
+      $contentP.append($contentA);
+      $cardContentDiv.append($contentSpan).append($contentP);
 
       //* **action***
-      let $actionDetailsRow = $('<div>').addClass('row card-action');
+      const $actionDetailsRow = $('<div>').addClass('row card-action');
 
       // found items section
-      let $actionFoundCol = $('<div>').addClass('col s4');
-      let $actionFoundRow = $('<div>').addClass('row ingredient-details');
+      const $actionFoundCol = $('<div>').addClass('col s4');
+      const $actionFoundRow = $('<div>').addClass('row ingredient-details');
       const $actionDivFound = $('<div>').addClass('col s12 center').text(oneRecipe.matched);
-      let $actionDivFoundIcon = $('<div>').addClass('col s12 center');
+      const $actionDivFoundIcon = $('<div>').addClass('col s12 center');
       const $actionFoundIcon = $('<i>').addClass('material-icons green-text').text('done');
 
-      $actionDivFoundIcon = $actionDivFoundIcon.append($actionFoundIcon);
-      $actionFoundRow = $actionFoundRow.append($actionDivFound).append($actionDivFoundIcon);
-      $actionFoundCol = $actionFoundCol.append($actionFoundRow);
+      $actionDivFoundIcon.append($actionFoundIcon);
+      $actionFoundRow.append($actionDivFound).append($actionDivFoundIcon);
+      $actionFoundCol.append($actionFoundRow);
 
       // unmatched items section
-      let $actionNotFoundCol = $('<div>').addClass('col s4');
-      let $actionNotFoundRow = $('<div>').addClass('row ingredient-details');
+      const $actionNotFoundCol = $('<div>').addClass('col s4');
+      const $actionNotFoundRow = $('<div>').addClass('row ingredient-details');
       const $actionDivNotFoundNum = $('<div>').addClass('col s12 center').text(oneRecipe.unmatched);
-      let $actionDivNotFoundIcon = $('<div>').addClass('col s12 center');
+      const $actionDivNotFoundIcon = $('<div>').addClass('col s12 center');
       const $actionNotFoundIcon = $('<i>').addClass('material-icons red-text').text('clear');
 
-      $actionDivNotFoundIcon = $actionDivNotFoundIcon.append($actionNotFoundIcon);
-      $actionNotFoundRow = $actionNotFoundRow.append($actionDivNotFoundNum).append($actionDivNotFoundIcon);
-      $actionNotFoundCol = $actionNotFoundCol.append($actionNotFoundRow);
+      $actionDivNotFoundIcon.append($actionNotFoundIcon);
+      $actionNotFoundRow.append($actionDivNotFoundNum).append($actionDivNotFoundIcon);
+      $actionNotFoundCol.append($actionNotFoundRow);
 
       // percent section
-      let $actionPercentCol = $('<div>').addClass('col s4');
-      let $actionPercentRow = $('<div>').addClass('row ingredient-details');
+      const $actionPercentCol = $('<div>').addClass('col s4');
+      const $actionPercentRow = $('<div>').addClass('row ingredient-details');
       const $actionDivPercent = $('<div>').addClass('col s12 center').text(`${oneRecipe.percentMatch}%`);
       const $actionDivMatch = $('<div>').addClass('col s12 center').text('Match');
 
-      $actionPercentRow = $actionPercentRow.append($actionDivPercent).append($actionDivMatch);
-      $actionPercentCol = $actionPercentCol.append($actionPercentRow);
+      $actionPercentRow.append($actionDivPercent).append($actionDivMatch);
+      $actionPercentCol.append($actionPercentRow);
 
-      $actionDetailsRow = $actionDetailsRow.append($actionFoundCol).append($actionNotFoundCol).append($actionPercentCol);
+      $actionDetailsRow.append($actionFoundCol).append($actionNotFoundCol).append($actionPercentCol);
 
       //* **append all to main div for card***
-      $cardDiv = $cardDiv.append($imageDiv).append($cardContentDiv).append($actionDetailsRow);
-      $outerDiv = $outerDiv.append($cardDiv);
+      $cardDiv.append($imageDiv).append($cardContentDiv).append($actionDetailsRow);
+      $outerDiv.append($cardDiv);
 
       $('.card-insert-point').append($outerDiv);
     }
